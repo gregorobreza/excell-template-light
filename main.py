@@ -67,7 +67,7 @@ def main(title: str, width: float, length: float):
     points_w = get_values(p1, N1, width)
     points_l = get_values(p2, N2, length)
     print(points_w, points_l)
-    create_excel(title, points_w, points_l,)
+    create_excel(title, points_w, points_l)
 
 
 if __name__ == "__main__":
