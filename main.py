@@ -13,19 +13,31 @@ def calculation(width: float, length: float):
     return p1, N1, p2, N2
 
 
-def get_values(p: float, N: int):
+def get_values(p: float, N: int, final: float):
     p_n = round(p/2, 1)
     points = [0, p_n]
 
     for i in range(N-1):
         p_n += p
         points.append(round(p_n, 1))
-    points.append(points[-1]+round(p/2, 1))
+
+    if points[-1] == final:
+        return points
+    elif points[-1] > final:
+        del points[-1]
+        return points
+
+    zadnja = round(points[-1]+round(p/2, 1), 1)
+    points.append(zadnja)
+    if points[-1] < final:
+        points.append(final)
+    elif points[-1] > final:
+        points[-1] = final
 
     return points
 
 
-def create_excel(title: str, points_w: list, points_l: list, width: float, length: float):
+def create_excel(title: str, points_w: list, points_l: list):
     workbook = xlsxwriter.Workbook(f'{title}.xlsx')
     worksheet = workbook.add_worksheet()
 
@@ -52,9 +64,10 @@ def create_excel(title: str, points_w: list, points_l: list, width: float, lengt
 
 def main(title: str, width: float, length: float):
     p1, N1, p2, N2 = calculation(width, length)
-    points_w = get_values(p1, N1)
-    points_l = get_values(p2, N2)
-    create_excel(title, points_w, points_l, width, length)
+    points_w = get_values(p1, N1, width)
+    points_l = get_values(p2, N2, length)
+    print(points_w, points_l)
+    create_excel(title, points_w, points_l,)
 
 
 if __name__ == "__main__":
